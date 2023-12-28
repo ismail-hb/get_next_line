@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 22:06:30 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/28 20:58:52 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/28 22:29:21 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
+#  define BUFFER_SIZE 10
 # endif
 
 # include <stddef.h>

@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 21:55:31 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/28 19:40:54 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/28 22:41:45 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,8 @@ char	*get_next_line(int fd)
 		while (saved_buffer[i] != '\n')
 			i++;
 		final = ft_calloc(i + 1);
-		if (!final)
-			return (NULL);
-		ft_strcpy_memmove(saved_buffer, final, i + 1);
+		if (final)
+			ft_strcpy_memmove(saved_buffer, final, i + 1);
 		return (final);
 	}
 	i = ft_read(fd, &buffer, saved_buffer);

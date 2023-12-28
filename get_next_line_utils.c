@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 08:14:36 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/28 19:49:48 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/28 22:39:44 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ char	*return_line(char *saved_buffer, char *buffer, char **final, ssize_t i)
 	ssize_t	n;
 
 	n = ft_strlen(saved_buffer) - 1;
+	if (!buffer)
+		return (NULL);
 	if (i == -1 || i == 0)
 	{
 		*final = ft_calloc(ft_strlen(buffer) + n - 1);
