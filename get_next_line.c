@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 21:55:31 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/26 20:39:18 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:40:54 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ char	*ft_calloc(size_t size)
 	char	*str;
 	size_t	i;
 
-	str = NULL;
 	i = 0;
 	str = malloc(size + 1);
+	if (!str)
+		return (NULL);
 	while (i <= size)
 	{
 		str[i] = '\0';
@@ -33,27 +34,17 @@ char	*ft_realloc(char *str, ssize_t j)
 {
 	char	*newstr;
 	ssize_t	i;
-	ssize_t	n;
 
 	i = 0;
-	if (BUFFER_SIZE < 100000)
-		n = BUFFER_SIZE * j;
-	else if (BUFFER_SIZE >= 100000)
-		n = (BUFFER_SIZE * j) / BUFFER_SIZE;
 	newstr = ft_calloc(BUFFER_SIZE * j);
 	if (!newstr)
-		return (NULL);
+		return (free(str), NULL);
 	while (str && str[i])
 	{
 		newstr[i] = str[i];
 		i++;
 	}
 	free(str);
-	while (i < n)
-	{
-		newstr[i] = '\0';
-		i++;
-	}
 	return (newstr);
 }
 
@@ -71,15 +62,13 @@ ssize_t	check_buff(char *buffer)
 	return (i);
 }
 
-ssize_t	ft_read(int fd, char **buffer)
+ssize_t	ft_read(int fd, char **buffer, char *saved_buffer)
 {
 	ssize_t	j;
 	ssize_t	readvalue;
 
 	j = 1;
 	readvalue = BUFFER_SIZE;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
 	*buffer = NULL;
 	while (check_buff(*buffer) != -1)
 	{
@@ -89,14 +78,14 @@ ssize_t	ft_read(int fd, char **buffer)
 		if (!*buffer)
 			return (0);
 		readvalue = read(fd, *buffer + BUFFER_SIZE * (j - 1), BUFFER_SIZE);
+		if (readvalue == -1)
+			return (ft_bzero(saved_buffer, BUFFER_SIZE + 1), 0);
 		if (check_buff(*buffer) == 0)
 			return (0);
 		j++;
 	}
-	if (readvalue == -1)
-		return (0);
 	if (readvalue != BUFFER_SIZE && check_buff(*buffer) != -1)
-		return ((ssize_t) -1);
+		return ((ssize_t) - 1);
 	return (ft_strlen(*buffer));
 }
 
@@ -109,21 +98,22 @@ char	*get_next_line(int fd)
 
 	buffer = NULL;
 	final = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	if (check_buff(saved_buffer) == -1)
 	{
 		i = 0;
 		while (saved_buffer[i] != '\n')
 			i++;
 		final = ft_calloc(i + 1);
+		if (!final)
+			return (NULL);
 		ft_strcpy_memmove(saved_buffer, final, i + 1);
 		return (final);
 	}
-	i = ft_read(fd, &buffer);
+	i = ft_read(fd, &buffer, saved_buffer);
 	if (!i && !saved_buffer[0])
-	{
-		free (buffer);
-		return (NULL);
-	}
+		return (free(buffer), NULL);
 	final = return_line(saved_buffer, buffer, &final, i);
 	free(buffer);
 	return (final);

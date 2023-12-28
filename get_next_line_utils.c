@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 08:14:36 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/26 20:39:36 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:49:48 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ ssize_t	ft_strlen(char *str)
 		i++;
 	i++;
 	return (i);
+}
+
+void	ft_bzero(char *str, ssize_t size)
+{
+	ssize_t	i;
+
+	i = 0;
+	while (i <= size)
+	{
+		str[i] = '\0';
+		i++;
+	}
 }
 
 void	ft_strcpy(char *src, char *dest, ssize_t i)
@@ -42,7 +54,7 @@ char	*ft_strcpy_memmove(char *src, char *dest, ssize_t i)
 	ssize_t	j;
 
 	j = 0;
-	while (j < i && src[j] != '\0')
+	while (j < i && src[j])
 	{
 		if (i == 1)
 		{
@@ -57,6 +69,7 @@ char	*ft_strcpy_memmove(char *src, char *dest, ssize_t i)
 	while (src[i])
 	{
 		src[j] = src[i];
+		src[i] = '\0';
 		j++;
 		i++;
 	}
@@ -71,13 +84,17 @@ char	*return_line(char *saved_buffer, char *buffer, char **final, ssize_t i)
 	n = ft_strlen(saved_buffer) - 1;
 	if (i == -1 || i == 0)
 	{
-		*final = ft_calloc(ft_strlen(buffer) + n + 2);
+		*final = ft_calloc(ft_strlen(buffer) + n - 1);
+		if (!*final)
+			return (NULL);
 		ft_strcpy_memmove(saved_buffer, *final, n);
 		ft_strcpy(buffer, *final + n, 0);
 	}
 	else if (i != -1)
 	{
 		*final = ft_calloc(i + n);
+		if (!*final)
+			return (NULL);
 		ft_strcpy(saved_buffer, *final, 0);
 		ft_strcpy(buffer, saved_buffer, i);
 		ft_strcpy_memmove(buffer, *final + n, i);
