@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/25 21:55:31 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/30 14:56:37 by ishouche         ###   ########.fr       */
+/*   Created: 2023/12/29 21:03:02 by ishouche          #+#    #+#             */
+/*   Updated: 2023/12/30 14:56:18 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_calloc(size_t size)
 {
@@ -78,41 +78,42 @@ ssize_t	ft_read(int fd, char **buffer, char *saved_buffer)
 			return (0);
 		readvalue = read(fd, *buffer + BUFFER_SIZE * (j - 1), BUFFER_SIZE);
 		if (readvalue == -1)
-			return (ft_bzero(saved_buffer, BUFFER_SIZE + 1), 0);
+			return (saved_buffer = 0, 0);
 		if (check_buff(*buffer) == 0)
 			return (0);
 		j++;
 	}
 	if (readvalue != BUFFER_SIZE && check_buff(*buffer) != -1)
 		return ((ssize_t) - 1);
+	(void) saved_buffer;
 	return (ft_strlen(*buffer));
 }
 
 char	*get_next_line(int fd)
 {
-	static char	saved_buffer[BUFFER_SIZE + 1] = "\0";
+	static char	saved_buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*buffer;
 	char		*final;
 	ssize_t		i;
 
 	buffer = NULL;
 	final = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (check_buff(saved_buffer) == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FOPEN_MAX || read(fd, 0, 0) < 0)
+		return (make_it_zero(saved_buffer, fd), NULL);
+	if (check_buff(saved_buffer[fd]) == -1)
 	{
 		i = 0;
-		while (saved_buffer[i] != '\n')
+		while (saved_buffer[fd][i] != '\n')
 			i++;
 		final = ft_calloc(i + 1);
 		if (final)
-			ft_strcpy_memmove(saved_buffer, final, i + 1);
+			ft_strcpy_memmove(saved_buffer[fd], final, i + 1);
 		return (final);
 	}
-	i = ft_read(fd, &buffer, saved_buffer);
-	if (!i && !saved_buffer[0])
+	i = ft_read(fd, &buffer, saved_buffer[fd]);
+	if (!i && !saved_buffer[fd][0])
 		return (free(buffer), NULL);
-	final = return_line(saved_buffer, buffer, &final, i);
+	final = return_line(saved_buffer[fd], buffer, &final, i);
 	free(buffer);
 	return (final);
 }

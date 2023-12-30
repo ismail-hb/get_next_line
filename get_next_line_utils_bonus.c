@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 08:14:36 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/29 21:09:52 by ishouche         ###   ########.fr       */
+/*   Created: 2023/12/29 21:03:25 by ishouche          #+#    #+#             */
+/*   Updated: 2023/12/29 21:08:39 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 ssize_t	ft_strlen(char *str)
 {
@@ -21,18 +21,6 @@ ssize_t	ft_strlen(char *str)
 		i++;
 	i++;
 	return (i);
-}
-
-void	ft_bzero(char *str, ssize_t size)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (i <= size)
-	{
-		str[i] = '\0';
-		i++;
-	}
 }
 
 void	ft_strcpy(char *src, char *dest, ssize_t i)
@@ -47,6 +35,12 @@ void	ft_strcpy(char *src, char *dest, ssize_t i)
 		i++;
 	}
 	dest[j] = '\0';
+}
+
+void	make_it_zero(char (*saved_buf)[BUFFER_SIZE + 1], int fd)
+{
+	if (fd > 0 && fd < FOPEN_MAX)
+		*saved_buf[fd] = 0;
 }
 
 char	*ft_strcpy_memmove(char *src, char *dest, ssize_t i)
