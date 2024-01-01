@@ -90,7 +90,7 @@ ssize_t	ft_read(int fd, char **buffer, char *saved_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	saved_buffer[BUFFER_SIZE + 1] = "\0";
+	static char	saved_buffer[BUFFER_SIZE + 1];
 	char		*buffer;
 	char		*final;
 	ssize_t		i;
