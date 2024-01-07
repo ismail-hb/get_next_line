@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 21:55:31 by ishouche          #+#    #+#             */
-/*   Updated: 2023/12/13 17:04:03 by ishouche         ###   ########.fr       */
+/*   Updated: 2023/12/15 22:01:30 by ismail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ ssize_t	ft_read(int fd, char **buffer)
 
 	j = 1;
 	*buffer = ft_realoc(*buffer, j);
-	if (!buffer)
+	if (!*buffer)
 		return (0);
 	readvalue = read(fd, *buffer, BUFFER_SIZE);
 	while (check_buff(*buffer) != -1)
@@ -78,7 +78,7 @@ ssize_t	ft_read(int fd, char **buffer)
 		if (readvalue != BUFFER_SIZE)
 			break ;
 		*buffer = ft_realoc(*buffer, j);
-		if (!buffer)
+		if (!*buffer)
 			return(0);
 		readvalue = read(fd, *buffer + (BUFFER_SIZE * j), BUFFER_SIZE);
 		j++;
@@ -97,13 +97,13 @@ char	*get_next_line(int fd)
 
 	buffer = NULL;
 	final = NULL;
-	i = 0;
-	while (saved_buffer[i] != '\0' && saved_buffer[i] != '\n')
-		i++;
-	if (saved_buffer[i] == '\n')
-		return (final = malloc(sizeof(char) * BUFFER_SIZE),
-			ft_strcpy(saved_buffer, final, ++i));
-	if (saved_buffer[i] == '\0')
+	// i = 0;
+	// while (saved_buffer[i] != '\0' && saved_buffer[i] != '\n')
+	// 	i++;
+	// if (saved_buffer[i] == '\n')
+	// 	return (final = malloc(sizeof(char) * BUFFER_SIZE),
+	// 		ft_strcpy(saved_buffer, final, ++i));
+	// if (saved_buffer[i] != '\n')
 		i = ft_read(fd, &buffer);
 	if (!i)
 		return (NULL);
