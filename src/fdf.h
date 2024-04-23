@@ -6,7 +6,7 @@
 /*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:25:42 by ismail            #+#    #+#             */
-/*   Updated: 2024/04/23 03:37:55 by ismail           ###   ########.fr       */
+/*   Updated: 2024/04/23 03:53:40 by ismail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ typedef struct s_v2
 	int	x;
 	int	y;
 }	t_v2;
+
+typedef struct s_v3
+{
+	int	x;
+	int	y;
+	int	z;
+}	t_v3;
 
 typedef struct s_img
 {

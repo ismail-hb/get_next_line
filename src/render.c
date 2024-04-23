@@ -6,23 +6,50 @@
 /*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 03:44:55 by ismail            #+#    #+#             */
-/*   Updated: 2024/04/23 03:44:56 by ismail           ###   ########.fr       */
+/*   Updated: 2024/04/23 04:01:30 by ismail           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img);
 void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img);
 double	get_dist(t_v2 p1, t_v2 p2);
 void	draw_pixel(int x, int y, t_img *d_img);
 
 void	render(ssize_t **points, t_data *d)
 {
-	(void)points;
-	draw_line((t_v2){0, }, (t_v2){200, 200}, &d->d_img);
+	int	y;
+	int	x;
+
+	y = -1;
+	while (points[++y])
+	{
+		x = -1;
+		while (points[y][++x] != INT_MAX)
+		{
+			if (points[y][x + 1] != INT_MAX)
+				draw_line_3D(
+					(t_v3){x, y, points[y][x]},
+					(t_v3){x + 1, y, points[y][x + 1]},
+					&d->d_img);
+			if (points[y + 1] != NULL)
+				draw_line_3D(
+					(t_v3){x, y, points[y][x]},
+					(t_v3){x, y + 1, points[y + 1][x]},
+					&d->d_img);
+		}
+	}
 	mlx_put_image_to_window(d->mlx, d->win, d->d_img.img, 0, 0);
 }
 
+void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img)
+{
+	draw_line(
+		(t_v2){p1.x * 10, p1.y * 10 + p1.x * 5},
+		(t_v2){p2.x * 10, p2.y * 10 + p1.x * 5},
+		d_img);
+}
 
 /*
 
