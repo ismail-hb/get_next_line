@@ -13,12 +13,10 @@ OBJ		=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_A =	./libft/libft.a
 
-CFLAGS	=	-Wall -Wextra -Werror
-CINC	=	-I./libft -I$(HOME)/Desktop/minilibx
-LFLAGS	=
-LLIB	=	-L./libft -lft -L$(HOME)/Desktop/minilibx -lmlx	\
--framework OpenGL -framework AppKit
-# -lm -lXext -lX11
+CFLAGS	=	-Wall -Wextra -Werror -O3
+CINC	=	-I./libft -I./minilibx
+LFLAGS	=	-O3
+LLIB	=	-L./libft -lft -L./minilibx -lmlx -lm -lXext -lX11
 
 ifeq ($(DEBUG), 1)
 	CFLAGS	+=	-g3 -fsanitize=address
@@ -38,8 +36,9 @@ libft:
 	make -C ./libft
 
 run:
+	@clear
 	@make -s
-	./fdf ../test_maps/42.fdf
+	@./fdf ./maps/test_maps/42.fdf
 
 re: fclean all
 

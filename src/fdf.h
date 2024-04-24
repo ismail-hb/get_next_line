@@ -13,7 +13,7 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "mlx.h"
+# include "../minilibx/mlx.h"
 # include "get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <math.h>
@@ -24,6 +24,9 @@
 
 # define ON_KEYDOWN	2
 # define ON_DESTROY	17
+
+# define WIN_W 1920
+# define WIN_H 1080
 
 typedef struct s_v2
 {

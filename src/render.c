@@ -12,17 +12,34 @@
 
 #include "fdf.h"
 
-void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img);
+void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size);
 void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img);
 double	get_dist(t_v2 p1, t_v2 p2);
 void	draw_pixel(int x, int y, t_img *d_img);
+
+t_v2	get_map_size(ssize_t **points)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (points[y])
+		y++;
+	while (points[0][x] != INT_MAX)
+		x++;
+
+	return((t_v2){x, y});
+}
 
 void	render(ssize_t **points, t_data *d)
 {
 	int	y;
 	int	x;
+	t_v2	map_size;
 
 	y = -1;
+	map_size = get_map_size(d->points);
 	while (points[++y])
 	{
 		x = -1;
@@ -32,22 +49,44 @@ void	render(ssize_t **points, t_data *d)
 				draw_line_3D(
 					(t_v3){x, y, points[y][x]},
 					(t_v3){x + 1, y, points[y][x + 1]},
-					&d->d_img);
+					&d->d_img, map_size);
 			if (points[y + 1] != NULL)
 				draw_line_3D(
 					(t_v3){x, y, points[y][x]},
 					(t_v3){x, y + 1, points[y + 1][x]},
-					&d->d_img);
+					&d->d_img, map_size);
 		}
 	}
 	mlx_put_image_to_window(d->mlx, d->win, d->d_img.img, 0, 0);
 }
 
-void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img)
+
+void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size)
 {
+	double	mult;
+
+	mult = 500 / map_size.x;
+	p1.x -= map_size.x / 2;
+	p2.x -= map_size.x / 2;
+	p1.y -= map_size.y / 2;
+	p2.y -= map_size.y / 2;
+
+	p1.x *= mult;
+	p1.y *= mult;
+	p1.z *= mult;
+	p2.x *= mult;
+	p2.y *= mult;
+	p2.z *= mult;
+
 	draw_line(
-		(t_v2){p1.x * 10, p1.y * 10 + p1.x * 5},
-		(t_v2){p2.x * 10, p2.y * 10 + p1.x * 5},
+		(t_v2){
+			WIN_W / 2 + p1.x - p1.y * 1.73,
+			WIN_H / 2 + p1.y + p1.x * 0.82 - p1.z
+		},
+		(t_v2){
+			WIN_W / 2 + p2.x - p2.y * 1.73, 
+			WIN_H / 2 + p2.y + p2.x * 0.82 - p2.z
+		},
 		d_img);
 }
 
@@ -124,7 +163,7 @@ void	draw_pixel(int x, int y, t_img *d_img)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0 || x > 1000 || x > 500)
+	if (x < 0 || y < 0 || x > WIN_W || y > WIN_H)
 		return ;
 	dst = d_img->addr + (y * d_img->line_length)
 			+ (x * d_img->bits_per_pixel / 8);

@@ -167,8 +167,8 @@ int	main(int ac, char **av)
 		return (write(2, "Usage: ./fdf <map>\n", 19), 1);
 
 	d.mlx = mlx_init();
-	d.win = mlx_new_window(d.mlx, 1000, 500, "fdf");
-	d.d_img.img = mlx_new_image(d.mlx, 1000, 500);
+	d.win = mlx_new_window(d.mlx, WIN_W, WIN_H, "fdf");
+	d.d_img.img = mlx_new_image(d.mlx, WIN_W, WIN_H);
 	d.d_img.addr = mlx_get_data_addr(d.d_img.img, &d.d_img.bits_per_pixel,
 			&d.d_img.line_length, &d.d_img.endian);
 
