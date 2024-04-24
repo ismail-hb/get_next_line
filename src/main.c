@@ -12,6 +12,27 @@
 
 #include "fdf.h"
 
+void	ft_free(char *str)
+{
+	if (str)
+		free(str);
+
+}
+void	free_2D(char **arr)
+{
+	size_t	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		ft_free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
 void	init_data(t_data *d)
 {
 	d->mlx = NULL;
@@ -20,10 +41,21 @@ void	init_data(t_data *d)
 
 void	cleanup_and_exit(int status, t_data *d)
 {
-	if (d->mlx)
-		free(d->mlx);
 	if (d->win)
-		free(d->win);
+	{
+		mlx_destroy_window(d->mlx, d->win);
+		// free(d->win);
+	}
+	if(d->d_img.img)
+	{
+		mlx_destroy_image(d->mlx, d->d_img.img);
+	}
+	if (d->mlx)
+	{
+		mlx_destroy_display(d->mlx);
+		// free(d->mlx);
+	}
+	free_2D((char **)d->points);
 	exit(status);
 }
 
@@ -35,7 +67,7 @@ int	on_win_destroy(t_data *d)
 
 int	on_keydown(int keycode, t_data *d)
 {
-	if (keycode == 53)
+	if (keycode == 65307)
 		cleanup_and_exit(0, d);
 	return (0);
 }
@@ -71,26 +103,7 @@ int	ft_count_split(char **line_len)
 	return(y);
 }
 
-void	ft_free(char *str)
-{
-	if (str)
-		free(str);
-}
 
-void	free_2D(char **arr)
-{
-	size_t	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		ft_free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 void	print_2D(char **arr)
 {
