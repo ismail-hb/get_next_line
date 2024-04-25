@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:25:42 by ismail            #+#    #+#             */
-/*   Updated: 2024/04/23 03:53:40 by ismail           ###   ########.fr       */
+/*   Updated: 2024/04/25 02:54:47 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "../minilibx/mlx.h"
+# include "../../minilibx/mlx.h"
 # include "get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <math.h>
@@ -59,14 +59,14 @@ typedef struct s_data
 }	t_data;
 
 void	ft_free(char *str);
-void	free_2D(char **arr);
+void	free_2d(char **arr);
 void	init_data(t_data *d);
-void	print_2D(char **arr);
+void	print_2d(char **arr);
 void	render(ssize_t **points, t_data *d);
 void	draw_pixel(int x, int y, t_img *d_img);
 void	cleanup_and_exit(int status, t_data *d);
 void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img);
-void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size);
+void	draw_line_3d(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size);
 int		on_win_destroy(t_data *d);
 int		ft_count_line(char *file);
 int		ft_count_split(char **line_len);

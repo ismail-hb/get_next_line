@@ -3,34 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 03:44:55 by ismail            #+#    #+#             */
-/*   Updated: 2024/04/23 04:01:30 by ismail           ###   ########.fr       */
+/*   Updated: 2024/04/25 02:59:15 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_v2	get_map_size(ssize_t **points)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (points[y])
-		y++;
-	while (points[0][x] != INT_MAX)
-		x++;
-
-	return((t_v2){x, y});
-}
-
 void	render(ssize_t **points, t_data *d)
 {
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 	t_v2	map_size;
 
 	y = -1;
@@ -41,12 +26,12 @@ void	render(ssize_t **points, t_data *d)
 		while (points[y][++x] != INT_MAX)
 		{
 			if (points[y][x + 1] != INT_MAX)
-				draw_line_3D(
+				draw_line_3d(
 					(t_v3){x, y, points[y][x]},
 					(t_v3){x + 1, y, points[y][x + 1]},
 					&d->d_img, map_size);
 			if (points[y + 1] != NULL)
-				draw_line_3D(
+				draw_line_3d(
 					(t_v3){x, y, points[y][x]},
 					(t_v3){x, y + 1, points[y + 1][x]},
 					&d->d_img, map_size);
@@ -55,8 +40,7 @@ void	render(ssize_t **points, t_data *d)
 	mlx_put_image_to_window(d->mlx, d->win, d->d_img.img, 0, 0);
 }
 
-
-void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size)
+void	draw_line_3d(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size)
 {
 	double	mult;
 
@@ -65,38 +49,22 @@ void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size)
 	p2.x -= map_size.x / 2;
 	p1.y -= map_size.y / 2;
 	p2.y -= map_size.y / 2;
-
 	p1.x *= mult;
 	p1.y *= mult;
 	p1.z *= mult;
 	p2.x *= mult;
 	p2.y *= mult;
 	p2.z *= mult;
-
 	draw_line(
 		(t_v2){
-			WIN_W / 2 + p1.x - p1.y * 1.73,
-			WIN_H / 2 + p1.y + p1.x * 0.82 - p1.z
-		},
+		WIN_W / 2 + p1.x - p1.y * 1.73,
+		WIN_H / 2 + p1.y + p1.x * 0.82 - p1.z
+	},
 		(t_v2){
-			WIN_W / 2 + p2.x - p2.y * 1.73, 
-			WIN_H / 2 + p2.y + p2.x * 0.82 - p2.z
-		},
+		WIN_W / 2 + p2.x - p2.y * 1.73,
+		WIN_H / 2 + p2.y + p2.x * 0.82 - p2.z
+	},
 		d_img);
-}
-
-int	lerp(int from, int to, double alpha)
-{
-	return (from + (to - from) * alpha);
-}
-
-t_v2	lerp_v2(t_v2 p1, t_v2 p2, double alpha)
-{
-	t_v2	v;
-
-	v.x = lerp(p1.x, p2.x, alpha);
-	v.y = lerp(p1.y, p2.y, alpha);
-	return (v);
 }
 
 void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img)
@@ -115,11 +83,6 @@ void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img)
 	}
 }
 
-double get_dist(t_v2 p1, t_v2 p2)
-{
-	return (sqrt(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2)));
-}
-
 void	draw_pixel(int x, int y, t_img *d_img)
 {
 	char	*dst;
@@ -127,6 +90,6 @@ void	draw_pixel(int x, int y, t_img *d_img)
 	if (x < 0 || y < 0 || x > WIN_W || y > WIN_H)
 		return ;
 	dst = d_img->addr + (y * d_img->line_length)
-			+ (x * d_img->bits_per_pixel / 8);
+		+ (x * d_img->bits_per_pixel / 8);
 	*(unsigned int *)dst = 0xFFFFFF;
 }

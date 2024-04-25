@@ -7,6 +7,10 @@ OBJ_DIR	=	obj
 INC	  	=	$(addprefix $(INC_DIR)/,	fdf.h)
 SRC	  	=	$(addprefix $(SRC_DIR)/,	main.c		\
 																		render.c	\
+																		parse_utils.c	\
+																		parse_utils2.c	\
+																		parse.c	\
+																		render_utils.c	\
 																		get_next_line/get_next_line_utils.c	\
 																		get_next_line/get_next_line.c)
 OBJ		=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -14,9 +18,9 @@ OBJ		=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 LIBFT_A =	./libft/libft.a
 
 CFLAGS	=	-Wall -Wextra -Werror -O3
-CINC	=	-I./libft -I./minilibx
+CINC	=	-I./libft -I$(HOME)/Desktop/minilibx
 LFLAGS	=	-O3
-LLIB	=	-L./libft -lft -L./minilibx -lmlx -lm -lXext -lX11
+LLIB	=	-L./libft -lft -L$(HOME)/Desktop/minilibx -lmlx -lm -lXext -lX11
 
 ifeq ($(DEBUG), 1)
 	CFLAGS	+=	-g3 -fsanitize=address
@@ -38,7 +42,7 @@ libft:
 run:
 	@clear
 	@make -s
-	@./fdf ./maps/test_maps/42.fdf
+	@./fdf $(HOME)/Desktop/maps/test_maps/42.fdf
 
 re: fclean all
 
