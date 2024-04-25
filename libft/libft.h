@@ -6,7 +6,7 @@
 /*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 21:43:41 by ishouche          #+#    #+#             */
-/*   Updated: 2023/11/17 19:23:34 by ishouche         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:34:36 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
+# include <stdarg.h>
 
 typedef struct s_list
 {
@@ -36,6 +37,7 @@ int		ft_tolower(int c);
 int		ft_lstsize(t_list *lst);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+int             ft_printf(const char *form, ...);
 char	*ft_itoa(int n);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -62,6 +64,15 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
+void    ft_nbrF(unsigned int nb, int *j);
+void    ft_puthexalowerF(unsigned int nb, int *j);
+void    ft_puthexaupperF(unsigned int nb, int *j);
+void    whichisit(const char form, va_list args, int *j);
+void    ft_putcharF(char c, int *j);
+void    ft_putstrF(char *str, int *j);
+void    putnbr_baseF(unsigned long int nbr, char *base, int *j);
+void    ft_putaddressF(void *nb, int *j);
+void    ft_putnbrF(int nb, int *j);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
