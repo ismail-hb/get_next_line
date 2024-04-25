@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismail <ismail@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ishouche <ishouche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 08:14:36 by ishouche          #+#    #+#             */
-/*   Updated: 2024/04/23 02:30:59 by ismail           ###   ########.fr       */
+/*   Created: 2023/12/29 21:03:25 by ishouche          #+#    #+#             */
+/*   Updated: 2023/12/29 21:08:39 by ishouche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-ssize_t	ft_strlenn(char *str)
+ssize_t	ft_strlen(char *str)
 {
 	ssize_t	i;
 
@@ -21,18 +21,6 @@ ssize_t	ft_strlenn(char *str)
 		i++;
 	i++;
 	return (i);
-}
-
-void	ft_bzeroo(char *str, ssize_t size)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (i <= size)
-	{
-		str[i] = '\0';
-		i++;
-	}
 }
 
 void	ft_strcpy(char *src, char *dest, ssize_t i)
@@ -47,6 +35,12 @@ void	ft_strcpy(char *src, char *dest, ssize_t i)
 		i++;
 	}
 	dest[j] = '\0';
+}
+
+void	make_it_zero(char (*saved_buf)[BUFFER_SIZE + 1], int fd)
+{
+	if (fd > 0 && fd < FOPEN_MAX)
+		*saved_buf[fd] = 0;
 }
 
 char	*ft_strcpy_memmove(char *src, char *dest, ssize_t i)
@@ -81,12 +75,12 @@ char	*return_line(char *saved_buffer, char *buffer, char **final, ssize_t i)
 {
 	ssize_t	n;
 
-	n = ft_strlenn(saved_buffer) - 1;
+	n = ft_strlen(saved_buffer) - 1;
 	if (!buffer)
 		return (NULL);
 	if (i == -1 || i == 0)
 	{
-		*final = ft_callocc(ft_strlenn(buffer) + n - 1);
+		*final = ft_calloc(ft_strlen(buffer) + n - 1);
 		if (!*final)
 			return (NULL);
 		ft_strcpy_memmove(saved_buffer, *final, n);
@@ -94,7 +88,7 @@ char	*return_line(char *saved_buffer, char *buffer, char **final, ssize_t i)
 	}
 	else if (i != -1)
 	{
-		*final = ft_callocc(i + n);
+		*final = ft_calloc(i + n);
 		if (!*final)
 			return (NULL);
 		ft_strcpy(saved_buffer, *final, 0);
