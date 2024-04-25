@@ -12,11 +12,6 @@
 
 #include "fdf.h"
 
-void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size);
-void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img);
-double	get_dist(t_v2 p1, t_v2 p2);
-void	draw_pixel(int x, int y, t_img *d_img);
-
 t_v2	get_map_size(ssize_t **points)
 {
 	int	x;
@@ -90,37 +85,6 @@ void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size)
 		d_img);
 }
 
-/*
-
-4
-3     X
-2   O
-1 X
-0 1 2 3 4
-
-X1 = (1,1)
-X2 = (3,3)
-
-(1,1) + ((3,3) - (1,1)) * 0.5
-
-*/
-
-/*
-
- X  U  U  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
- U  U  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
- 0  0 10 10  0  0 10 10  0  0  0 10 10 10 10 10  0  0  0
- 0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
- 0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
- 0  0 10 10 10 10 10 10  0  0  0  0 10 10 10 10  0  0  0
- 0  0  0 10 10 10 10 10  0  0  0 10 10  0  0  0  0  0  0
- 0  0  0  0  0  0 10 10  0  0  0 10 10  0  0  0  0  0  0
- 0  0  0  0  0  0 10 10  0  0  0 10 10 10 10 10 10  0  0
- 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-
-*/
-
 int	lerp(int from, int to, double alpha)
 {
 	return (from + (to - from) * alpha);
@@ -151,9 +115,6 @@ void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img)
 	}
 }
 
-/**
- * dist = V( (x2 - x1)^2 + (y2 - y1)^2 )
-*/
 double get_dist(t_v2 p1, t_v2 p2)
 {
 	return (sqrt(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2)));

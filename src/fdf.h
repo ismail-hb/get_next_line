@@ -58,6 +58,23 @@ typedef struct s_data
 	ssize_t	**points;
 }	t_data;
 
+void	ft_free(char *str);
+void	free_2D(char **arr);
+void	init_data(t_data *d);
+void	print_2D(char **arr);
 void	render(ssize_t **points, t_data *d);
+void	draw_pixel(int x, int y, t_img *d_img);
+void	cleanup_and_exit(int status, t_data *d);
+void	draw_line(t_v2 p1, t_v2 p2, t_img *d_img);
+void	draw_line_3D(t_v3 p1, t_v3 p2, t_img *d_img, t_v2 map_size);
+int		on_win_destroy(t_data *d);
+int		ft_count_line(char *file);
+int		ft_count_split(char **line_len);
+int		on_keydown(int keycode, t_data *d);
+int		lerp(int from, int to, double alpha);
+double	get_dist(t_v2 p1, t_v2 p2);
+ssize_t	**parse(char *file);
+t_v2	get_map_size(ssize_t **points);
+t_v2	lerp_v2(t_v2 p1, t_v2 p2, double alpha);
 
 #endif

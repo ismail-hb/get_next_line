@@ -44,7 +44,6 @@ void	cleanup_and_exit(int status, t_data *d)
 	if (d->win)
 	{
 		mlx_destroy_window(d->mlx, d->win);
-		// free(d->win);
 	}
 	if(d->d_img.img)
 	{
@@ -53,7 +52,6 @@ void	cleanup_and_exit(int status, t_data *d)
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
-		// free(d->mlx);
 	}
 	free_2D((char **)d->points);
 	exit(status);
@@ -199,9 +197,9 @@ int	main(int ac, char **av)
 	{
 		for (size_t x = 0; d.points[y][x] != INT_MAX; x++)
 		{
-			printf("%2zd ", d.points[y][x]);
+			ft_printf("%2zd ", d.points[y][x]);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 
 	render(d.points, &d);
